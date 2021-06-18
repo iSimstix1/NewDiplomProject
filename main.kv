@@ -1,0 +1,344 @@
+# Kivy file "main.kv".
+# Used to develop a Material Design-style interface for the Planer app
+
+<MainScreen>:
+
+
+    #MDToolbar:
+    #    id: toolbar
+    #    title: "Planer"
+    #    elevation: 10
+    #    pos_hint: {'top': 1}
+    #    left_action_items: [["menu", lambda x: nav_drawer.toggle_nav_drawer()]]
+    #    right_action_items: [["plus", lambda x: app.show_task_dialog()], ["clock", lambda x: app.callback_clock()]]
+
+    MDBottomNavigation:
+        md_bg_color: app.theme_cls.primary_color
+        MDBottomNavigationItem:
+            name: 'today_items'
+            text: 'Today'
+            icon: 'home'
+            ScrollView:
+                MDList:
+                    id: container
+        MDBottomNavigationItem:
+            name: 'completed_tasks'
+            text: 'Completed'
+            icon: 'checkbox-multiple-marked'
+            ScrollView:
+                MDList:
+                    id: completed_container
+        MDBottomNavigationItem:
+            name: 'user'
+            text: 'User'
+            icon: 'account-circle'
+            ScrollView:
+                MDList:
+                    id: user_container
+            MDBoxLayout:
+                orientation: 'vertical'
+                padding: "70dp"
+                MDLabel:
+                    text: "Personal Information"
+                    color: 1, 0, 1, 1
+                    halign: 'center'
+                    font_style: 'H5'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    padding: '-50dp'
+                    MDTextField: # Текстовое поле получения наименования задачи
+                        id: task_name
+                        hint_text: "Name"
+                        max_text_length: 15
+                        line_color_normal: 0, 0, 1, 1
+                        size_hint_x: None
+                        pos_hint: {'center_x': .5, 'center_y': .8}
+                        width: 250
+                    MDTextField: # Текстовое поле получения наименования задачи
+                        id: task_about_me
+                        hint_text: "About me"
+                        max_text_length: 100
+                        line_color_normal: 0, 0, 1, 1
+                        size_hint_x: None
+                        pos_hint: {'center_x': .5, 'center_y': .8}
+                        width: 250
+                    MDTextField: # Текстовое поле получения наименования задачи
+                        id: task_interests
+                        hint_text: "Interests"
+                        line_color_normal: 0, 0, 1, 1
+                        max_text_length: 100
+                        #line_color_normal: 0, 0, 1, 1
+                        size_hint_x: None
+                        pos_hint: {'center_x': .5, 'center_y': .8}
+                        width: 250
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    padding: '-30dp'
+                    MDRectangleFlatButton:
+                        text: "SAVE"
+                        md_bg_color: app.theme_cls.primary_color
+                        text_color: 1, 1, 1, 1
+                        on_release:
+                            app.user_information_saved()
+                            root.clear_fields()
+                    MDRectangleFlatButton:
+                        text: "CLEAR FIELDS"
+                        on_release:
+                            app.user_fields_cleared_saved()
+                            root.clear_fields()
+
+    Screen:
+        NavigationLayout:
+            ScreenManager:
+                Screen:
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        MDToolbar:
+                            title: 'Planer'
+                            left_action_items: [["menu", lambda x: nav_drawer.toggle_nav_drawer()]]
+                            right_action_items: [["plus", lambda x: app.show_task_dialog()], ["clock", lambda x: app.callback_clock()]]
+                            elevation: 10
+                        Widget:
+            MDNavigationDrawer:
+                id: nav_drawer
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: '8dp'
+                    padding: '8dp'
+                    Image:
+                        source: 'schedule-icon-8.png'
+                    ScrollView:
+                        MDList:
+                            OneLineIconListItem:
+                                text: 'Add task'
+                                on_release:
+                                    app.show_task_dialog()
+                                IconLeftWidget:
+                                    icon: 'grease-pencil'
+                            OneLineIconListItem:
+                                text: 'Feedback'
+                                on_release:
+                                    app.show_feedback_dialog()
+                                IconLeftWidget:
+                                    icon: 'folder-information'
+                            OneLineIconListItem:
+                                text: 'Night Mode'
+                                on_release:
+                                    app.night_mode()
+                                IconLeftWidget:
+                                    icon: 'moon-waning-crescent'
+                            OneLineIconListItem:
+                                text: 'Light Mode'
+                                on_release:
+                                    app.light_mode()
+                                IconLeftWidget:
+                                    icon: "alarm-light-outline"
+                            OneLineIconListItem:
+                                text: 'User Info'
+                                on_release:
+                                    None
+                                IconLeftWidget:
+                                    icon: "account"
+                            OneLineIconListItem:
+                                text: 'Exit'
+                                on_release:
+                                    app.stop()
+                                IconLeftWidget:
+                                    icon: 'exit-to-app'
+
+<DialogFeedback>:
+    orientation: "vertical"
+    spacing: "-50dp"
+    size_hint: 1, None
+    height: "250dp"
+
+    BoxLayout:
+        orientation: "vertical"
+        rows: 1
+        pos_hint: {"center_y": .4}
+
+        MDTextField:
+            id: task_text
+            hint_text: "Topic..."
+            line_color_normal: 0, 0, 1, 1
+            max_text_length: 20
+
+        MDTextField:
+            id: task_text
+            hint_text: "Description..."
+            line_color_normal: 0, 0, 1, 1
+            max_text_length: 50
+
+    MDLabel:
+        id: date_text
+
+    BoxLayout:
+        orientation: 'horizontal'
+        pos_hint: {"center_y": .5}
+
+        MDRectangleFlatButton:
+            text: "SEND"
+            md_bg_color:
+                app.theme_cls.primary_color
+            on_release:
+                app.close_feedback_dialog()
+                app.feedback_sent()
+
+            text_color: 1, 1, 1, 1
+            on_release:
+        MDRectangleFlatButton:
+            text: 'CANCEL'
+            on_release: app.close_feedback_dialog()
+
+    BoxLayout:
+        orientation: 'horizontal'
+        MDIconButton:
+            icon: "vk"
+        MDIconButton:
+            icon: "telegram"
+        MDIconButton:
+            icon: "instagram"
+        MDIconButton:
+            icon: "youtube"
+        MDIconButton:
+            icon: "twitter"
+
+<DialogContent>:
+    orientation: "vertical"
+    spacing: "10dp"
+    size_hint: 1, None
+    height: "130dp"
+
+    GridLayout:
+        rows: 1
+
+        MDTextField:
+            id: task_text
+            hint_text: "Add Task..."
+            pos_hint: {"center_y": .4}
+            line_color_normal: 0, 0, 1, 1
+            max_text_length: 50
+
+        MDIconButton:
+            icon: 'calendar'
+            on_release: root.show_date_picker()
+            padding: '10dp'
+    
+    MDLabel:
+        id: date_text
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRectangleFlatButton:
+            text: "SAVE"
+            md_bg_color: app.theme_cls.primary_color
+            text_color: 1, 1, 1, 1
+            on_release: (app.save_task(task_text.text, date_text.text), app.close_dialog())
+        MDRectangleFlatButton:
+            text: 'CANCEL'
+            on_release: app.close_dialog()
+
+<TaskDetailDialog>:
+    orientation: 'vertical'
+    spacing: "10dp"
+    size_hint: 1, None
+    height: "130dp"
+
+    MDLabel:
+        id: task_detail_text
+    
+    MDLabel:
+        id: task_detail_date
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRectangleFlatButton:
+            id: task_edit_button
+            text: "EDIT"
+            md_bg_color: app.theme_cls.primary_color
+            text_color: 1, 1, 1, 1
+            on_release: (root.open_edit_dialog(), app.close_detail_dialog())
+        MDRectangleFlatButton:
+            text: 'CANCEL'
+            on_release: app.close_detail_dialog()
+        
+        MDLabel:
+
+        MDIconButton:
+            icon: 'trash-can-outline'
+            on_release: (root.delete_task_dialog(), app.close_detail_dialog())
+
+<TaskEditDialog>:
+    orientation: 'vertical'
+    spacing: "10dp"
+    size_hint: 1, None
+    height: "130dp"
+
+    GridLayout:
+        rows: 1
+
+        MDTextField:
+            id: edit_task_text
+            hint_text: "Add Task..."
+            pos_hint: {"center_y": .4}
+            line_color_normal: 0, 0, 1, 1
+
+        MDIconButton:
+            icon: 'calendar'
+            on_release: root.show_date_picker()
+            padding: '10dp'
+    
+    MDLabel:
+        id: edit_date_text
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRectangleFlatButton:
+            text: "SAVE"
+            md_bg_color: app.theme_cls.primary_color
+            text_color: 1, 1, 1, 1
+            on_release: (root.save_task_data())
+
+        MDRectangleFlatButton:
+            text: "CANCEL"
+            on_release: app.close_detail_dialog()
+
+<ConfirmDelete>:
+    orientation: 'vertical'
+    spacing: "10dp"
+    size_hint: 1, None
+    height: "130dp"
+
+    MDLabel:
+        text: 'Are you sure you want to delete this task?'
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRectangleFlatButton:
+            text: "DELETE"
+            md_bg_color: app.theme_cls.primary_color
+            text_color: 1, 1, 1, 1
+            on_press: root.delete_the_task()
+
+        MDRectangleFlatButton:
+            text: 'CANCEL'
+
+<ListItemWithCheckbox_OnStart>:
+
+<ListItemWithCheckbox_default>:
+    id: the_list_item
+
+<ListItemWithCheckbox>:
+    id: the_list_item
+    on_release: app.show_detail(the_list_item)
+
+    IconLeftWidget:
+        icon: root.icon
+
+    RightCheckbox:
+        on_release: app.mark(check, the_list_item)
+        id: check
