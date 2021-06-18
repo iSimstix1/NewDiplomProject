@@ -29,5 +29,5 @@ install:
   - ls -la
   - ls bin/ -l
   - gem install dpl --pre
-  - dpl releases --token $GITHUB_TOKEN --file "bin/planer-0.1-armeabi-v7a-debug.apk" --tag_name "v.0.1"
+  - dpl releases --token $GITHUB_TOKEN --file "bin/planer-0.2-armeabi-v7a-debug.apk" --tag_name "v.0.2"
   - echo "TODO COMPILE 32bit"
