@@ -13,7 +13,7 @@ package.domain = org.isimstix1
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-#source.include_exts = py,png,jpg,kv,atlas,po,mo
+source.include_exts = py,png,jpg,kv,atlas,po,mo
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -28,7 +28,7 @@ source.dir = .
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.5
+version = 0.6
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -36,7 +36,7 @@ version = 0.5
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3, kivy==2.0.0, https://github.com/kivymd/KivyMD/archive/3274d62.zip, sdl2_ttf = 2.0.15
+requirements = python3, kivy==2.0.0, kivymd==0.104.2, sdl2_ttf == 2.0.15
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
